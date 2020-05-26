@@ -5,14 +5,13 @@
 //
 // Name 1:  Miraj Ahmed
 //-----------------------------------------------------------
-
 import 'dart:convert';
 import '../models/todo.dart';
 import 'package:http/http.dart' as http;
 
 class DataService {
   static const String baseUrl =
-      'http://192.168.137.1:3000'; // Change the IP address to your PC's IP. Remain the port number 3000 unchanged.
+      'http://161.139.102.172:3000'; // Change the IP address to your PC's IP. Remain the port number 3000 unchanged.
 
   // TODO 1: Complete this method. It is an helper for the HTTP GET request
   Future get(String endpoint) async {
@@ -25,7 +24,7 @@ class DataService {
 
   // TODO 2: Complete this method. It is an helper for the HTTP POST request
   Future post(String endpoint, {dynamic data}) async {
-    final response = await http.get('$baseUrl/$endpoint',
+    final response = await http.post('$baseUrl/$endpoint',
         headers: {'Content-type': 'application/json'}, body: jsonEncode(data));
 
     if (response.statusCode == 201) return jsonDecode(response.body);
@@ -34,7 +33,7 @@ class DataService {
 
   // TODO 3: Complete this method. It is an helper for the HTTP PATCH request
   Future patch(String endpoint, {dynamic data}) async {
-    final response = await http.get('$baseUrl/$endpoint',
+    final response = await http.patch('$baseUrl/$endpoint',
         headers: {'Content-type': 'application/json'}, body: jsonEncode(data));
 
     if (response.statusCode == 200) return jsonDecode(response.body);
@@ -43,7 +42,7 @@ class DataService {
 
   // TODO 4: Complete this method. It is an helper for the HTTP DELETE request
   Future delete(String endpoint) async {
-    final response = await http.get('$baseUrl/$endpoint',
+    final response = await http.delete('$baseUrl/$endpoint',
         headers: {'Content-type': 'application/json'});
 
     if (response.statusCode == 200) return jsonDecode(response.body);
