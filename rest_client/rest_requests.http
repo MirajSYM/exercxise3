@@ -7,7 +7,7 @@
 ##############################################################
 
 ### Change the IP address below to your PC's IP address. Remain the port number 3000 unchanged
-@baseUrl = http://192.168.137.1:3000
+@baseUrl = http://161.139.102.172:3000
 
 ### Example HTTP Request: Creating a new todo
 
@@ -28,7 +28,7 @@ POST {{baseUrl}}/todos HTTP/1.1
 content-type: application/json
 
 {
-    "id":6,
+    "id": 6,
     "title": "Buy Dart eBook",
     "completed": false
 }
