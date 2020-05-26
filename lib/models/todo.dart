@@ -16,9 +16,10 @@ class Todo {
 
   Todo({this.id, this.title, this.completed = false});
 
-  Todo.formJson(Map<String>,dynamic>json): this(id:json['id'], title: json['title'],completed:json['completed']);
-  
-  Map<String,dynamic> toJson() => {'id' : id,'title' : title,'completed' : completed};
+  Todo.formJson(Map<String, dynamic> json)
+      : this(
+            id: json['id'], title: json['title'], completed: json['completed']);
 
-  
+  Map<String, dynamic> toJson() =>
+      {'id': id, 'title': title, 'completed': completed};
 }
