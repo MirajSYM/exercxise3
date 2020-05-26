@@ -1,0 +1,20 @@
+##############################################################
+### Mobile Application Programming (SCSJ3623)
+### Semester 2, 2019/2020
+### Exercise 3: HTTP and JSON
+###
+### Name 1:  Miraj Ahmed(A16CS4017)
+##############################################################
+
+### Change the IP address below to your PC's IP address. Remain the port number 3000 unchanged
+@baseUrl = http://192.168.137.1:3000
+
+### Example HTTP Request: Creating a new todo
+
+### TODO 1 : Define the HTTP Request to get the list of todos
+
+### TODO 2 : Define the HTTP Request to update the status of a given todo (whether is completed or not)
+
+### TODO 3 : Define the HTTP Request to create a new todo
+
+### TODO 4 : Define the HTTP Request to delete a given todo
