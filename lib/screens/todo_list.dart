@@ -11,9 +11,8 @@
 // TODO 3 - Add a new todo  to the server when the user is pressing on the plus (+) button. The id for the newly created todo is given by the server
 
 import 'package:flutter/material.dart';
-
 import '../models/todo.dart';
-import '../models/data.dart' as data;
+import '../services/data_service.dart';
 
 class TodoListScreen extends StatefulWidget {
   @override
@@ -21,35 +20,91 @@ class TodoListScreen extends StatefulWidget {
 }
 
 class _TodoListScreenState extends State<TodoListScreen> {
+  Future<List<Todo>> _todo;
+
+  List<Todo> list;
+  @override
+  void initState() {
+    super.initState();
+    _todo = dataService.getTodoList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<Todo>>(
+      future: _todo,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          list = snapshot.data;
+          return buildHome();
+        }
+        return _buildFetchData();
+      },
+    );
+  }
+
+  Scaffold _buildFetchData() {
+    return Scaffold(
+        body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(),
+          SizedBox(height: 50),
+          Text('Fetching Data in progress'),
+        ],
+      ),
+    ));
+  }
+
+  Scaffold buildHome() {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Todo List'),
       ),
       body: ListView.separated(
-        itemCount: data.globalTodoList.length,
-        separatorBuilder: (context, index) => Divider(
-          color: Colors.blueGrey,
-        ),
-        itemBuilder: (context, index) {
-          final Todo _todo = data.globalTodoList[index];
-          return ListTile(
-            title: Text(_todo.title,
+          itemBuilder: (context, index) {
+            final Todo _todo = list[index];
+            return ListTile(
+              title: Text(
+                _todo.title,
                 style: TextStyle(
                     decoration: _todo.completed
                         ? TextDecoration.lineThrough
-                        : TextDecoration.none)),
-            subtitle: Text('id: ${_todo.id}'),
-            onTap: () {},
-            onLongPress: () {},
-          );
-        },
-      ),
+                        : TextDecoration.none),
+              ),
+              subtitle: Text('id:${_todo.id}'),
+              onTap: () {
+                dataService.updateTodoStatus(
+                    id: _todo.id, status: !_todo.completed);
+                reload();
+              },
+              onLongPress: () {
+                dataService.deleteTodo(id: _todo.id);
+                reload();
+              },
+            );
+          },
+          separatorBuilder: null,
+          itemCount: null),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Todo todo = Todo(
+              title: 'New Task',
+              completed: false,
+              id: list[list.length - 1].id + 1);
+
+          dataService.createTodo(todo: todo);
+          reload();
+        },
       ),
     );
+  }
+
+  void reload() {
+    setState(() {
+      _todo = dataService.getTodoList();
+    });
   }
 }
